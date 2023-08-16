@@ -1,0 +1,121 @@
+#include<iostream>
+using namespace std;
+
+//da ke thua
+
+class SV{
+  protected:
+    string masv,ht,gt;
+  public:
+    SV(string masv="",string ht="",string gt="")
+    {
+      this->masv=masv;
+      this->ht=ht;
+      this->gt=gt;
+
+    }
+    friend istream& operator >> (istream& in, SV &a){
+      cout<<"Nhap ma sinh vien: ";
+      in>>a.masv;
+
+      cout<<"Nhap ho va ten: ";
+      fflush(stdin);
+      getline(in,a.ht);
+
+      cout<<"Nhap gioi tinh: ";
+      getline(in,a.gt);
+
+        return in;
+
+    }
+
+    friend ostream& operator << (ostream& out, SV a){
+
+      out <<"Ma sinh vien: "<<a.masv<<endl
+          <<"Ho va ten: "<<a.ht<<endl
+          <<"Gioi tinh: "<<a.gt<<endl;
+
+              return out;
+      }
+
+};
+
+class MH{
+  protected:
+    string mamon,tenmon;
+  public:
+    MH(string mamon="",string tenmon="")
+    {
+      this->mamon=mamon;
+      this->tenmon=tenmon;
+    }
+    friend istream& operator >> (istream& in, MH &a){
+      cout<<"Nhap ma mon: ";
+      in>>a.mamon;
+
+      cout<<"Nhap ten mon: ";
+      fflush(stdin);
+      getline(in,a.tenmon);
+
+        return in;
+      }
+
+  friend ostream& operator << (ostream& out, MH a){
+      out <<"Ma mon: "<<a.mamon<<endl
+          <<"Ten mon: "<<a.tenmon<<endl;
+          return out;
+
+    }
+
+};
+
+      //class da ke thua
+
+class Diem : public SV, public MH{
+    private:
+      float diemQT,diemThi;
+    public:
+      Diem(string masv="",string ht="",string gt="",string mamon="",string tenmon="",float diemQT=0,float diemThi=0): SV(masv,ht,gt), MH(mamon,tenmon){
+        this->diemQT=diemQT;
+        this->diemThi=diemThi;
+    }
+
+    friend istream& operator >> (istream& in, Diem &a){
+        in>>(SV&)a;
+        in>>(MH&)a;
+
+      cout<<"Nhap diem qua trinh: ";
+      in>>a.diemQT;
+
+      cout<<"Nhap diem thi: ";
+      in>>a.diemThi;
+
+      return in;
+    }
+
+    friend ostream& operator << (ostream& out, Diem a){
+      out<<(SV)a;
+      out<<(MH)a;
+
+      out <<"Diem qua trinh: "<<a.diemQT<<endl
+          <<"Diem thi: "<<a.diemThi<<endl
+          <<"Diem tong ket: "<<a.diemTK()<<endl;
+
+      return out;
+    }
+
+    float diemTK(){
+      return this->diemQT*0.4 + this->diemThi*0.6;
+    }
+
+};
+
+int main()
+
+{
+    Diem a;
+    cin>>a;
+    cout<<a;
+    return 0;
+
+}
